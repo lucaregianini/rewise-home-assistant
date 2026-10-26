@@ -1,0 +1,138 @@
+{
+  "title": "Rewise",
+  "config": {
+    "flow_title": "Rewise Air: {name}",
+    "step": {
+      "user": {
+        "title": "Add Rewise Air",
+        "description": "Open the Rewise app → your Air A2 → Settings → Home Assistant. Tap Copy Code and paste it here. Treat the code like a password.",
+        "data": {
+          "code": "Connection code",
+          "host": "IP address or hostname"
+        }
+      },
+      "pair": {
+        "title": "Connect Rewise Air",
+        "description": "Open the Rewise app → your Air A2 → Settings → Home Assistant. Tap Copy Code and paste it here. Treat the code like a password.",
+        "data": {
+          "code": "Connection code"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reconnect Rewise Air",
+        "description": "Open the Rewise app → your Air A2 → Settings → Home Assistant. Tap Copy Code and paste it here. Treat the code like a password.",
+        "data": {
+          "code": "Connection code"
+        }
+      },
+      "reconfigure": {
+        "title": "Update connection code",
+        "description": "Open the Rewise app → your Air A2 → Settings → Home Assistant. Tap Copy Code and paste it here. Treat the code like a password.",
+        "data": {
+          "code": "Connection code"
+        }
+      }
+    },
+    "error": {
+      "invalid_code": "This connection code is not valid. Copy it again from the Rewise app.",
+      "invalid_auth": "Rewise Air refused this code. Copy a new code from the app.",
+      "cannot_connect": "Could not connect. Check that Rewise Air is on the same network.",
+      "code_wrong_device": "This code belongs to a different Rewise Air."
+    },
+    "abort": {
+      "already_configured": "This Rewise Air is already connected.",
+      "not_rewise_air": "This device is not a Rewise Air A2.",
+      "reauth_successful": "Rewise Air is connected again.",
+      "reconfigure_successful": "Connection code updated.",
+      "unique_id_mismatch": "This code belongs to a different Rewise Air."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "rssi": {
+        "name": "Wi-Fi signal"
+      },
+      "firmware": {
+        "name": "Firmware"
+      }
+    },
+    "switch": {
+      "swing_v": {
+        "name": "Swing"
+      },
+      "swing_h": {
+        "name": "Horizontal swing"
+      },
+      "turbo": {
+        "name": "Turbo"
+      },
+      "quiet": {
+        "name": "Quiet"
+      },
+      "econo": {
+        "name": "Eco"
+      },
+      "light": {
+        "name": "Display light"
+      },
+      "sleep": {
+        "name": "Sleep"
+      },
+      "clean": {
+        "name": "Clean"
+      },
+      "beep": {
+        "name": "Beep"
+      }
+    },
+    "button": {
+      "swing_v": {
+        "name": "Swing"
+      },
+      "swing_h": {
+        "name": "Horizontal swing"
+      },
+      "turbo": {
+        "name": "Turbo"
+      },
+      "quiet": {
+        "name": "Quiet"
+      },
+      "econo": {
+        "name": "Eco"
+      },
+      "light": {
+        "name": "Display light"
+      },
+      "sleep": {
+        "name": "Sleep"
+      },
+      "clean": {
+        "name": "Clean"
+      },
+      "beep": {
+        "name": "Beep"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Rewise Air did not answer. Check its connection."
+    },
+    "invalid_auth": {
+      "message": "Rewise Air needs a new connection code."
+    },
+    "busy": {
+      "message": "Rewise Air is busy. Try again in a moment."
+    },
+    "command_failed": {
+      "message": "Rewise Air could not send that command."
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "title": "Rewise",
+  "config": {
+    "flow_title": "Rewise Air: {name}",
+    "step": {
+      "user": {
+        "title": "Adicionar Rewise Air",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "data": {
+          "code": "Código de ligação",
+          "host": "Endereço IP ou nome do dispositivo"
+        }
+      },
+      "pair": {
+        "title": "Ligar Rewise Air",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "data": {
+          "code": "Código de ligação"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Voltar a ligar Rewise Air",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "data": {
+          "code": "Código de ligação"
+        }
+      },
+      "reconfigure": {
+        "title": "Atualizar código de ligação",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "data": {
+          "code": "Código de ligação"
+        }
+      }
+    },
+    "error": {
+      "invalid_code": "O código não é válido. Copie-o novamente na aplicação Rewise.",
+      "invalid_auth": "O Rewise Air recusou este código. Copie um novo código na aplicação.",
+      "cannot_connect": "Não foi possível ligar. Verifique se o Rewise Air está na mesma rede.",
+      "code_wrong_device": "Este código pertence a outro Rewise Air."
+    },
+    "abort": {
+      "already_configured": "Este Rewise Air já está ligado.",
+      "not_rewise_air": "Este dispositivo não é um Rewise Air A2.",
+      "reauth_successful": "O Rewise Air está novamente ligado.",
+      "reconfigure_successful": "Código de ligação atualizado.",
+      "unique_id_mismatch": "Este código pertence a outro Rewise Air."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "temperature": {
+        "name": "Temperatura"
+      },
+      "humidity": {
+        "name": "Humidade"
+      },
+      "rssi": {
+        "name": "Sinal Wi-Fi"
+      },
+      "firmware": {
+        "name": "Firmware"
+      }
+    },
+    "switch": {
+      "swing_v": {
+        "name": "Oscilação"
+      },
+      "swing_h": {
+        "name": "Oscilação horizontal"
+      },
+      "turbo": {
+        "name": "Turbo"
+      },
+      "quiet": {
+        "name": "Silencioso"
+      },
+      "econo": {
+        "name": "Eco"
+      },
+      "light": {
+        "name": "Luz do visor"
+      },
+      "sleep": {
+        "name": "Dormir"
+      },
+      "clean": {
+        "name": "Limpeza"
+      },
+      "beep": {
+        "name": "Som"
+      }
+    },
+    "button": {
+      "swing_v": {
+        "name": "Oscilação"
+      },
+      "swing_h": {
+        "name": "Oscilação horizontal"
+      },
+      "turbo": {
+        "name": "Turbo"
+      },
+      "quiet": {
+        "name": "Silencioso"
+      },
+      "econo": {
+        "name": "Eco"
+      },
+      "light": {
+        "name": "Luz do visor"
+      },
+      "sleep": {
+        "name": "Dormir"
+      },
+      "clean": {
+        "name": "Limpeza"
+      },
+      "beep": {
+        "name": "Som"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "O Rewise Air não respondeu. Verifique a ligação."
+    },
+    "invalid_auth": {
+      "message": "O Rewise Air precisa de um novo código de ligação."
+    },
+    "busy": {
+      "message": "O Rewise Air está ocupado. Tente novamente dentro de instantes."
+    },
+    "command_failed": {
+      "message": "O Rewise Air não conseguiu enviar o comando."
+    }
+  }
+}
