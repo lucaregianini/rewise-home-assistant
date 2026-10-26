@@ -4,7 +4,7 @@ Control your Rewise Air A2 air conditioners and learned remotes directly over yo
 
 <!-- Add a real Home Assistant screenshot after the first device validation. -->
 
-Version 0.9.x is a prerelease, awaiting testing on a real Air A2. The Rewise app screen described below must be included in your installed app version.
+Tested on a real Air A2 with Home Assistant 2026.10. You need a Rewise app version with Air A2 → Settings → Home Assistant.
 
 ## What you need
 
@@ -14,7 +14,7 @@ A Rewise Air A2 set up in the Rewise app, Home Assistant 2025.2 or later, and HA
 
 1. Open HACS → ⋮ → Custom repositories.
 2. Add `https://github.com/lucaregianini/rewise-home-assistant`, category **Integration**.
-3. Find **Rewise**, download it, and restart Home Assistant. Enable prerelease versions in HACS if necessary to select the latest 0.9 version.
+3. Find **Rewise**, download it, and restart Home Assistant.
 
 ## Add your Rewise Air
 
@@ -29,7 +29,7 @@ If discovery is unavailable, select Add integration → Rewise and enter the Air
 
 - Main air conditioner: power, auto/cool/heat/dry/fan modes, target temperature (17–30 °C), and fan speed.
 - Room temperature and humidity sensors.
-- AC extras supported by your selected profile: switches for retained state, buttons for one-shot toggles.
+- The AC extras on your control page in the Rewise app (turbo, display light…): switches when Rewise Air knows their state, buttons when each press toggles the AC. Codes from the Android app include every extra your AC profile supports.
 - A climate entity for each additional AC configured in the app.
 - Buttons for learned TVs, lights, and other remotes associated with this Air A2, and for buttons taught on the main AC's control page in the Rewise iPhone app (named "AC …").
 - Firmware and Wi-Fi signal diagnostics, disabled by default.
@@ -46,7 +46,7 @@ Everything stays on your network. Commands are serialized at least 1.1 seconds a
 
 After resetting and setting up the same Air A2 again, copy a new code. Home Assistant asks you to reauthenticate when the old password stops working.
 
-After adding, removing, or renaming learned buttons or another AC in the app, use **Reconfigure** on the Rewise integration and paste a fresh code. The code is a snapshot, not a live sync of your app configuration. Reconfiguration removes controls that are no longer present and preserves your custom names for retained entities.
+After changing the extras on your control page, or adding, removing, or renaming learned buttons or another AC in the app (the iPhone app shows **Update code** when this is needed), use **Reconfigure** on the Rewise integration and paste a fresh code. The code is a snapshot, not a live sync of your app configuration. Reconfiguration removes controls that are no longer present and preserves your custom names for retained entities.
 
 ## Troubleshooting
 

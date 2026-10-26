@@ -43,6 +43,14 @@ class RewiseCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self._extras: tuple[bool, tuple[str, ...]] | None = None
         self._reload_pending = False
 
+    @property
+    def extras(self) -> list[str]:
+        """Supported extras, limited to the ones on the app's control page."""
+        supported = self.data["extras"].get("supported", [])
+        if self.code.extras is None:
+            return list(supported)
+        return [name for name in supported if name in self.code.extras]
+
     async def _async_update_data(self) -> dict[str, Any]:
         try:
             data = await self.client.status()

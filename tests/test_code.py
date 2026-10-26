@@ -38,3 +38,12 @@ def test_bad_format(text):
 def test_bad_fields(payload):
     with pytest.raises(InvalidCode):
         decode_code(encode_code(payload))
+
+
+def test_extras_are_optional(payload):
+    assert decode_code(encode_code(payload)).extras is None
+    payload["extras"] = []
+    assert decode_code(encode_code(payload)).extras == ()
+    payload["extras"] = ["turbo", 3]
+    with pytest.raises(InvalidCode):
+        decode_code(encode_code(payload))

@@ -48,6 +48,8 @@ class ConnectionCode:
     password: str = field(repr=False)
     other_acs: tuple[OtherAC, ...] = ()
     devices: tuple[IRDevice, ...] = ()
+    # The extras on the app's control page. None (older codes): every supported extra.
+    extras: tuple[str, ...] | None = None
 
 
 def _text(data: dict[str, Any], key: str) -> str:
@@ -107,6 +109,12 @@ def decode_code(text: str) -> ConnectionCode:
                     tuple(buttons),
                 )
             )
+        extras = data.get("extras")
+        if extras is not None and (
+            not isinstance(extras, list)
+            or not all(isinstance(name, str) and name for name in extras)
+        ):
+            raise ValueError("extras")
         keys = [ac.key for ac in other_acs]
         button_keys = [button.key for device in devices for button in device.buttons]
         if len(keys) != len(set(keys)) or len(button_keys) != len(set(button_keys)):
@@ -118,6 +126,7 @@ def decode_code(text: str) -> ConnectionCode:
             _text(data, "pass"),
             tuple(other_acs),
             tuple(devices),
+            None if extras is None else tuple(extras),
         )
     except (KeyError, TypeError, ValueError, AttributeError) as err:
         raise InvalidCode("fields") from err

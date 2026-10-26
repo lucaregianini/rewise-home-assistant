@@ -59,9 +59,7 @@ def _remove_stale_entities(hass: HomeAssistant, entry: RewiseConfigEntry) -> Non
     )
     extras = coordinator.data["extras"]
     platform = "switch" if extras.get("stateful") else "button"
-    expected.update(
-        (platform, f"{prefix}_extra_{name}") for name in extras.get("supported", [])
-    )
+    expected.update((platform, f"{prefix}_extra_{name}") for name in coordinator.extras)
     registry = er.async_get(hass)
     for entity in er.async_entries_for_config_entry(registry, entry.entry_id):
         if (

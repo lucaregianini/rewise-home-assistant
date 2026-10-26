@@ -22,5 +22,6 @@ class RewiseEntity(CoordinatorEntity[RewiseCoordinator]):
             name=coordinator.code.name,
             manufacturer="Rewise",
             model="Rewise Air A2",
+            serial_number=coordinator.code.device_id,
             sw_version=coordinator.data["device"].get("firmwareVersion"),
         )

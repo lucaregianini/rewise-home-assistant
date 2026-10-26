@@ -23,12 +23,11 @@ async def async_setup_entry(
     entities: list[ButtonEntity] = []
     if not coordinator.data["extras"].get("stateful"):
         entities.extend(
-            RewiseExtraButton(coordinator, name)
-            for name in coordinator.data["extras"].get("supported", [])
+            RewiseExtraButton(coordinator, name) for name in coordinator.extras
         )
     for device in coordinator.code.devices:
         entities.extend(
-            RewiseLearnedButton(coordinator, device.name, button)
+            RewiseLearnedButton(coordinator, device.name, device.kind, button)
             for button in device.buttons
         )
     async_add_entities(entities)
@@ -51,15 +50,30 @@ class RewiseExtraButton(RewiseEntity, ButtonEntity):
         )
 
 
+KIND_ICONS = {
+    "airConditioner": "mdi:air-conditioner",
+    "tv": "mdi:television",
+    "light": "mdi:lightbulb",
+    "fan": "mdi:fan",
+    "speaker": "mdi:speaker",
+    "projector": "mdi:projector",
+}
+
+
 class RewiseLearnedButton(RewiseEntity, ButtonEntity):
     """Replay exactly the body exported by the Rewise app."""
 
     def __init__(
-        self, coordinator: RewiseCoordinator, device_name: str, button: LearnedButton
+        self,
+        coordinator: RewiseCoordinator,
+        device_name: str,
+        kind: str,
+        button: LearnedButton,
     ) -> None:
         super().__init__(coordinator, f"btn_{button.key}")
         self.button = button
         self._attr_name = f"{device_name} {button.name}"
+        self._attr_icon = KIND_ICONS.get(kind, "mdi:remote")
 
     async def async_press(self) -> None:
         await self.coordinator.command(

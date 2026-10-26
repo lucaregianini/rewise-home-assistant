@@ -25,10 +25,7 @@ async def async_setup_entry(
     coordinator = entry.runtime_data
     if coordinator.data["extras"].get("stateful"):
         async_add_entities(
-            [
-                RewiseExtraSwitch(coordinator, name)
-                for name in coordinator.data["extras"].get("supported", [])
-            ]
+            [RewiseExtraSwitch(coordinator, name) for name in coordinator.extras]
         )
 
 
