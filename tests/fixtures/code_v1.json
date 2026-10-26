@@ -1,0 +1,45 @@
+{
+  "v": 1,
+  "id": "A2-TEST01",
+  "name": "Living Room",
+  "user": "admin",
+  "pass": "test-pass-123",
+  "otherACs": [
+    {
+      "key": "ac-test",
+      "name": "Window AC",
+      "protocol": "DAIKIN",
+      "model": -1
+    }
+  ],
+  "devices": [
+    {
+      "key": "tv-test",
+      "name": "TV",
+      "kind": "tv",
+      "buttons": [
+        {
+          "key": "power-test",
+          "name": "Power",
+          "ir": {
+            "protocol": "NEC",
+            "value": "0x20DF10EF",
+            "bits": 32
+          }
+        },
+        {
+          "key": "raw-test",
+          "name": "Light",
+          "ir": {
+            "raw": [
+              9000,
+              4500,
+              560
+            ],
+            "khz": 38
+          }
+        }
+      ]
+    }
+  ]
+}
