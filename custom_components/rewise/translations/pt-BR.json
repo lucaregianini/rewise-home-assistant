@@ -5,7 +5,7 @@
     "step": {
       "user": {
         "title": "Adicionar Rewise Air",
-        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copiar código e cole aqui. Trate este código como uma senha.",
+        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copy Code e cole aqui. Trate este código como uma senha.",
         "data": {
           "code": "Código de conexão",
           "host": "Endereço IP ou nome do dispositivo"
@@ -13,21 +13,21 @@
       },
       "pair": {
         "title": "Conectar Rewise Air",
-        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copiar código e cole aqui. Trate este código como uma senha.",
+        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copy Code e cole aqui. Trate este código como uma senha.",
         "data": {
           "code": "Código de conexão"
         }
       },
       "reauth_confirm": {
         "title": "Reconectar Rewise Air",
-        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copiar código e cole aqui. Trate este código como uma senha.",
+        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copy Code e cole aqui. Trate este código como uma senha.",
         "data": {
           "code": "Código de conexão"
         }
       },
       "reconfigure": {
         "title": "Atualizar código de conexão",
-        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copiar código e cole aqui. Trate este código como uma senha.",
+        "description": "Abra o app Rewise → seu Air A2 → Configurações → Home Assistant. Toque em Copy Code e cole aqui. Trate este código como uma senha.",
         "data": {
           "code": "Código de conexão"
         }

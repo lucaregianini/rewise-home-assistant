@@ -5,7 +5,7 @@
     "step": {
       "user": {
         "title": "Adicionar Rewise Air",
-        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copy Code e cole-o aqui. Trate este código como uma palavra-passe.",
         "data": {
           "code": "Código de ligação",
           "host": "Endereço IP ou nome do dispositivo"
@@ -13,21 +13,21 @@
       },
       "pair": {
         "title": "Ligar Rewise Air",
-        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copy Code e cole-o aqui. Trate este código como uma palavra-passe.",
         "data": {
           "code": "Código de ligação"
         }
       },
       "reauth_confirm": {
         "title": "Voltar a ligar Rewise Air",
-        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copy Code e cole-o aqui. Trate este código como uma palavra-passe.",
         "data": {
           "code": "Código de ligação"
         }
       },
       "reconfigure": {
         "title": "Atualizar código de ligação",
-        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copiar código e cole-o aqui. Trate este código como uma palavra-passe.",
+        "description": "Abra a aplicação Rewise → o seu Air A2 → Definições → Home Assistant. Toque em Copy Code e cole-o aqui. Trate este código como uma palavra-passe.",
         "data": {
           "code": "Código de ligação"
         }

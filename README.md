@@ -4,22 +4,22 @@ Control your Rewise Air A2 air conditioners and learned remotes directly over yo
 
 <!-- Add a real Home Assistant screenshot after the first device validation. -->
 
-Version 0.9.1 is the first prerelease, awaiting testing on a real Air A2. The Rewise app screen described below must be included in your installed app version.
+Version 0.9.x is a prerelease, awaiting testing on a real Air A2. The Rewise app screen described below must be included in your installed app version.
 
 ## What you need
 
-A Rewise Air A2 set up in the Rewise app, Home Assistant 2025.1 or later, and HACS. Home Assistant and Rewise Air must be able to reach each other on your network. Local tests currently use Home Assistant 2026.10.4; the minimum version has not been tested separately.
+A Rewise Air A2 set up in the Rewise app, Home Assistant 2025.2 or later, and HACS. Home Assistant and Rewise Air must be able to reach each other on your network. Automated tests run on Home Assistant 2026.10.4; 2025.2 is the first version with every Home Assistant feature this integration uses, but it has not been run on it.
 
 ## Install
 
 1. Open HACS → ⋮ → Custom repositories.
 2. Add `https://github.com/lucaregianini/rewise-home-assistant`, category **Integration**.
-3. Find **Rewise**, download it, and restart Home Assistant. Enable prerelease versions in HACS if necessary to select 0.9.1.
+3. Find **Rewise**, download it, and restart Home Assistant. Enable prerelease versions in HACS if necessary to select the latest 0.9 version.
 
 ## Add your Rewise Air
 
 1. In Home Assistant, open Settings → Devices & services. Your Air A2 appears under **Discovered**.
-2. Select Configure.
+2. Select **Add**.
 3. In the Rewise app, open your Air A2 → Settings → Home Assistant → **Copy Code**.
 4. Paste the code into Home Assistant.
 
@@ -31,7 +31,7 @@ If discovery is unavailable, select Add integration → Rewise and enter the Air
 - Room temperature and humidity sensors.
 - AC extras supported by your selected profile: switches for retained state, buttons for one-shot toggles.
 - A climate entity for each additional AC configured in the app.
-- Buttons for learned TVs, lights, and other remotes associated with this Air A2.
+- Buttons for learned TVs, lights, and other remotes associated with this Air A2, and for buttons taught on the main AC's control page in the Rewise iPhone app (named "AC …").
 - Firmware and Wi-Fi signal diagnostics, disabled by default.
 
 ## Good to know

@@ -113,7 +113,9 @@ class RewiseAirClient:
                         self._last_command = self._clock()
                 if status == 401:
                     raise AuthFailed
-                error = data.get("error", {})
+                error = data.get("error")
+                if not isinstance(error, dict):
+                    error = {}
                 if status == 409 and error.get("code") == "busy" and attempt == 0:
                     await self._sleep(BUSY_RETRY)
                     continue
