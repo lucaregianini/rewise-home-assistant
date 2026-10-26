@@ -31,10 +31,10 @@ async def test_full_state(coordinator):
 async def test_restore(hass, code, status):
     from pytest_homeassistant_custom_component.common import (
         MockConfigEntry,
-        async_mock_restore_state,
+        mock_restore_cache,
     )
 
-    async_mock_restore_state(
+    mock_restore_cache(
         hass,
         [
             State(
