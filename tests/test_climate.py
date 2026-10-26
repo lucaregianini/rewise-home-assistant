@@ -1,37 +1,42 @@
-from unittest.mock import AsyncMock
 import pytest
 from homeassistant.components.climate import HVACMode
-from custom_components.rewise.climate import RewiseAirClimate,MODE_TO_HVAC
-from custom_components.rewise.code import decode_code
-from custom_components.rewise.coordinator import RewiseCoordinator
-from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-@pytest.fixture
-def coordinator(hass,code,status):
-    client=AsyncMock();client.control.return_value=status
-    entry=MockConfigEntry(domain="rewise",data={"host":"192.0.2.1","code":code});entry.add_to_hass(hass)
-    coordinator=RewiseCoordinator(hass,entry,client,decode_code(code));coordinator.async_set_updated_data(status)
-    return coordinator
+from custom_components.rewise.climate import MODE_TO_HVAC, RewiseAirClimate
 
-@pytest.mark.parametrize("mode",list(HVACMode))
-async def test_modes(coordinator,mode):
-    if mode==HVACMode.HEAT_COOL: return
-    entity=RewiseAirClimate(coordinator)
+
+@pytest.mark.parametrize("mode", list(HVACMode))
+async def test_modes(coordinator, mode):
+    if mode == HVACMode.HEAT_COOL:
+        return
+    entity = RewiseAirClimate(coordinator)
     await entity.async_set_hvac_mode(mode)
-    expected={"power":False} if mode==HVACMode.OFF else {"power":True,"mode":next(k for k,v in MODE_TO_HVAC.items() if v==mode)}
+    expected = (
+        {"power": False}
+        if mode == HVACMode.OFF
+        else {
+            "power": True,
+            "mode": next(k for k, v in MODE_TO_HVAC.items() if v == mode),
+        }
+    )
     coordinator.client.control.assert_awaited_once_with(**expected)
 
+
 async def test_temperature_fan_and_power(coordinator):
-    entity=RewiseAirClimate(coordinator)
-    assert entity.current_temperature==25.1 and entity.current_humidity==52
-    assert entity.hvac_mode==HVACMode.COOL
-    await entity.async_set_temperature(temperature=25,hvac_mode=HVACMode.HEAT)
-    coordinator.client.control.assert_awaited_once_with(temperatureC=25,power=True,mode="heat")
-    for fan in ("auto","low","medium","high"):
-        await entity.async_set_fan_mode(fan);coordinator.client.control.assert_awaited_with(fan=fan)
-    await entity.async_turn_off();coordinator.client.control.assert_awaited_with(power=False)
-    await entity.async_turn_on();coordinator.client.control.assert_awaited_with(power=True)
-    coordinator.data["environment"]={"temperatureC":None,"relativeHumidity":None}
+    entity = RewiseAirClimate(coordinator)
+    assert entity.current_temperature == 25.1 and entity.current_humidity == 52
+    assert entity.hvac_mode == HVACMode.COOL
+    await entity.async_set_temperature(temperature=25, hvac_mode=HVACMode.HEAT)
+    coordinator.client.control.assert_awaited_once_with(
+        temperatureC=25, power=True, mode="heat"
+    )
+    for fan in ("auto", "low", "medium", "high"):
+        await entity.async_set_fan_mode(fan)
+        coordinator.client.control.assert_awaited_with(fan=fan)
+    await entity.async_turn_off()
+    coordinator.client.control.assert_awaited_with(power=False)
+    await entity.async_turn_on()
+    coordinator.client.control.assert_awaited_with(power=True)
+    coordinator.data["environment"] = {"temperatureC": None, "relativeHumidity": None}
     assert entity.current_temperature is None and entity.current_humidity is None
-    coordinator.data["ac"]["power"]=False
-    assert entity.hvac_mode==HVACMode.OFF
+    coordinator.data["ac"]["power"] = False
+    assert entity.hvac_mode == HVACMode.OFF
