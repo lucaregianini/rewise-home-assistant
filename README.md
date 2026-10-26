@@ -4,7 +4,7 @@ Control your Rewise Air A2 air conditioners and learned remotes directly over yo
 
 <!-- Add a real Home Assistant screenshot after the first device validation. -->
 
-Version 0.9.0 is the first prerelease, awaiting testing on a real Air A2. The Rewise app screen described below must be included in your installed app version.
+Version 0.9.1 is the first prerelease, awaiting testing on a real Air A2. The Rewise app screen described below must be included in your installed app version.
 
 ## What you need
 
@@ -14,7 +14,7 @@ A Rewise Air A2 set up in the Rewise app, Home Assistant 2025.1 or later, and HA
 
 1. Open HACS → ⋮ → Custom repositories.
 2. Add `https://github.com/lucaregianini/rewise-home-assistant`, category **Integration**.
-3. Find **Rewise**, download it, and restart Home Assistant. Enable prerelease versions in HACS if necessary to select 0.9.0.
+3. Find **Rewise**, download it, and restart Home Assistant. Enable prerelease versions in HACS if necessary to select 0.9.1.
 
 ## Add your Rewise Air
 
@@ -46,7 +46,7 @@ Everything stays on your network. Commands are serialized at least 1.1 seconds a
 
 After resetting and setting up the same Air A2 again, copy a new code. Home Assistant asks you to reauthenticate when the old password stops working.
 
-After adding, removing, or renaming learned buttons or another AC in the app, use **Reconfigure** on the Rewise integration and paste a fresh code. The code is a snapshot, not a live sync of your app configuration.
+After adding, removing, or renaming learned buttons or another AC in the app, use **Reconfigure** on the Rewise integration and paste a fresh code. The code is a snapshot, not a live sync of your app configuration. Reconfiguration removes controls that are no longer present and preserves your custom names for retained entities.
 
 ## Troubleshooting
 

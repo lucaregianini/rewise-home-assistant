@@ -10,7 +10,7 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/lucaregianini/rewise-home-assistant/issues",
   "requirements": [],
-  "version": "0.9.0",
+  "version": "0.9.1",
   "zeroconf": [
     "_smartachub._tcp.local."
   ]

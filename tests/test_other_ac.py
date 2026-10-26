@@ -64,3 +64,53 @@ async def test_restore(hass, code, status):
         assert state.attributes["temperature"] == 27
         assert state.attributes["fan_mode"] == "high"
         assert await hass.config_entries.async_unload(entry.entry_id)
+
+
+async def test_restore_off_preserves_mode(hass, code, status):
+    from pytest_homeassistant_custom_component.common import (
+        MockConfigEntry,
+        mock_restore_cache_with_extra_data,
+    )
+
+    saved = {"power": False, "mode": "heat", "fan": "high", "temperatureC": 27}
+    mock_restore_cache_with_extra_data(
+        hass,
+        [
+            (
+                State(
+                    "climate.living_room_window_ac",
+                    "off",
+                    {"temperature": 27, "fan_mode": "high"},
+                ),
+                saved,
+            )
+        ],
+    )
+    entry = MockConfigEntry(
+        domain="rewise",
+        unique_id="A2-TEST01",
+        title="Living Room",
+        data={"host": "192.0.2.1", "code": code},
+    )
+    entry.add_to_hass(hass)
+    with (
+        patch(
+            "custom_components.rewise.api.RewiseAirClient.status", return_value=status
+        ),
+        patch("custom_components.rewise.api.RewiseAirClient.sensor", return_value={}),
+        patch(
+            "custom_components.rewise.api.RewiseAirClient.other_ac",
+            return_value={"sent": True},
+        ) as send,
+    ):
+        assert await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+        send.assert_not_called()
+        await hass.services.async_call(
+            "climate",
+            "turn_on",
+            {"entity_id": "climate.living_room_window_ac"},
+            blocking=True,
+        )
+        send.assert_awaited_once_with("DAIKIN", -1, True, "heat", "high", 27)
+        assert await hass.config_entries.async_unload(entry.entry_id)

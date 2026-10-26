@@ -15,7 +15,11 @@ from homeassistant.components.climate.const import ATTR_HVAC_MODE
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.restore_state import RestoreEntity
+from homeassistant.helpers.restore_state import (
+    ExtraStoredData,
+    RestoredExtraData,
+    RestoreEntity,
+)
 
 from . import RewiseConfigEntry
 from .code import OtherAC
@@ -156,8 +160,31 @@ class RewiseOtherClimate(RewiseAirClimate, RestoreEntity):
     def _ac(self) -> dict[str, Any]:
         return self.local
 
+    @property
+    def extra_restore_state_data(self) -> ExtraStoredData:
+        # An off climate state cannot retain the mode needed by the next turn-on.
+        return RestoredExtraData(dict(self.local))
+
     async def async_added_to_hass(self) -> None:
         await super().async_added_to_hass()
+        if (extra := await self.async_get_last_extra_data()) is not None:
+            saved = extra.as_dict()
+            try:
+                if (
+                    type(saved["power"]) is not bool
+                    or saved["mode"] not in MODE_TO_HVAC
+                    or saved["fan"] not in FAN_MODES
+                ):
+                    raise ValueError("Invalid restored AC state")
+                self.local = {
+                    "power": saved["power"],
+                    "mode": saved["mode"],
+                    "fan": saved["fan"],
+                    "temperatureC": temperature(float(saved["temperatureC"])),
+                }
+                return
+            except (KeyError, TypeError, ValueError):
+                pass
         if (state := await self.async_get_last_state()) is not None:
             try:
                 mode = HVACMode(state.state)
