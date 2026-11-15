@@ -34,6 +34,7 @@ async def test_manual(hass, code, status):
             "rewise", context={"source": "user"}
         )
         assert result["type"] == FlowResultType.FORM
+        assert result["step_id"] == "manual"
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"], {"host": "192.0.2.1", "code": code}
         )
@@ -160,3 +161,69 @@ async def test_status_wrong_device(hass, code, status):
             data={"host": "192.0.2.1", "code": code},
         )
         assert result["errors"] == {"base": "code_wrong_device"}
+
+
+async def test_user_finds_device_without_restart(hass, found_devices, code, status):
+    """Marketplace opens setup right after install; the flow browses mDNS itself."""
+    found_devices["A2-TEST01"] = "192.0.2.7"
+    result = await hass.config_entries.flow.async_init(
+        "rewise", context={"source": "user"}
+    )
+    assert result["step_id"] == "pick"
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {"device": "A2-TEST01"}
+    )
+    assert result["step_id"] == "pair"
+    with (
+        patch(
+            "custom_components.rewise.config_flow.RewiseAirClient.status",
+            return_value=status,
+        ),
+        patch("custom_components.rewise.async_setup_entry", return_value=True),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {"code": code}
+        )
+        assert result["type"] == FlowResultType.CREATE_ENTRY
+        assert result["data"]["host"] == "192.0.2.7"
+        assert result["result"].unique_id == "A2-TEST01"
+        await hass.async_block_till_done()
+
+
+async def test_user_pick_manual(hass, found_devices):
+    found_devices["A2-TEST01"] = "192.0.2.7"
+    result = await hass.config_entries.flow.async_init(
+        "rewise", context={"source": "user"}
+    )
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {"device": "manual"}
+    )
+    assert result["step_id"] == "manual"
+
+
+async def test_user_skips_configured(hass, found_devices, code):
+    MockConfigEntry(
+        domain="rewise", unique_id="A2-TEST01", data={"host": "192.0.2.7", "code": code}
+    ).add_to_hass(hass)
+    found_devices["A2-TEST01"] = "192.0.2.7"
+    result = await hass.config_entries.flow.async_init(
+        "rewise", context={"source": "user"}
+    )
+    assert result["step_id"] == "manual"
+
+
+async def test_user_pick_alongside_discovery_flow(
+    hass, found_devices, discovery, code, status
+):
+    """A boot-time discovery card and the Add button can both be open."""
+    await hass.config_entries.flow.async_init(
+        "rewise", context={"source": "zeroconf"}, data=discovery
+    )
+    found_devices["A2-TEST01"] = "192.0.2.1"
+    result = await hass.config_entries.flow.async_init(
+        "rewise", context={"source": "user"}
+    )
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {"device": "A2-TEST01"}
+    )
+    assert result["step_id"] == "pair"

@@ -17,6 +17,10 @@ from homeassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 from .api import ApiError, AuthFailed, CannotConnect, RewiseAirClient
 from .code import ConnectionCode, InvalidCode, decode_code
 from .const import CONF_CODE, DOMAIN
+from .discovery import async_discover
+
+CONF_DEVICE = "device"
+MANUAL = "manual"
 
 
 def valid_host(host: str) -> bool:
@@ -39,6 +43,7 @@ class RewiseConfigFlow(ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         self._host: str | None = None
         self._device_id: str | None = None
+        self._found: dict[str, str] = {}
 
     async def async_step_zeroconf(
         self, discovery_info: ZeroconfServiceInfo
@@ -82,19 +87,70 @@ class RewiseConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
+        """Look for Rewise Air on the network first; fall back to manual entry.
+
+        Installing from the Marketplace opens this step straight away, before
+        Home Assistant has restarted and run its own discovery.
+        """
+        if user_input is not None:
+            return await self.async_step_manual(user_input)
+        configured = self._async_current_ids(include_ignore=False)
+        self._found = {
+            device_id: host
+            for device_id, host in (await async_discover(self.hass)).items()
+            if device_id not in configured
+        }
+        if self._found:
+            return await self.async_step_pick()
+        return await self.async_step_manual()
+
+    async def async_step_pick(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        if user_input is not None:
+            choice = user_input[CONF_DEVICE]
+            if choice == MANUAL or choice not in self._found:
+                return await self.async_step_manual()
+            self._device_id = choice
+            self._host = self._found[choice]
+            await self.async_set_unique_id(choice, raise_on_progress=False)
+            self._abort_if_unique_id_configured(
+                updates={CONF_HOST: self._host}, reload_on_update=True
+            )
+            self.context["title_placeholders"] = {"name": choice}
+            return await self.async_step_pair()
+        options = {
+            device_id: f"Rewise Air {device_id} ({host})"
+            for device_id, host in self._found.items()
+        }
+        options[MANUAL] = "Enter IP address or hostname instead"
+        return self.async_show_form(
+            step_id="pick",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_DEVICE, default=next(iter(options))): vol.In(
+                        options
+                    )
+                }
+            ),
+        )
+
+    async def async_step_manual(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
         errors = {}
         if user_input is not None:
             host = user_input[CONF_HOST].strip()
             code, errors = await self._validate(host, user_input[CONF_CODE], None)
             if code is not None:
-                await self.async_set_unique_id(code.device_id)
+                await self.async_set_unique_id(code.device_id, raise_on_progress=False)
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(
                     title=code.name,
                     data={CONF_HOST: host, CONF_CODE: user_input[CONF_CODE]},
                 )
         return self.async_show_form(
-            step_id="user",
+            step_id="manual",
             data_schema=vol.Schema(
                 {vol.Required(CONF_HOST): str, vol.Required(CONF_CODE): str}
             ),

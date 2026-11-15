@@ -15,6 +15,20 @@ def custom_integrations(enable_custom_integrations):
     yield
 
 
+@pytest.fixture(autouse=True)
+def found_devices():
+    """Devices the setup flow's own mDNS browse finds (none by default)."""
+    from unittest.mock import patch
+
+    found = {}
+
+    async def fake(hass):
+        return dict(found)
+
+    with patch("custom_components.rewise.config_flow.async_discover", fake):
+        yield found
+
+
 @pytest.fixture
 def payload():
     return json.loads((Path(__file__).parent / "fixtures/code_v1.json").read_text())

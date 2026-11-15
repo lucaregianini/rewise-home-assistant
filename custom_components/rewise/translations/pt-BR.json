@@ -31,6 +31,21 @@
         "data": {
           "code": "Código de conexão"
         }
+      },
+      "pick": {
+        "title": "Rewise Air encontrado",
+        "description": "Escolha o Rewise Air A2 que deseja adicionar. Não está na lista? Escolha a última opção para digitar o endereço.",
+        "data": {
+          "device": "Dispositivo"
+        }
+      },
+      "manual": {
+        "title": "Adicionar Rewise Air pelo endereço",
+        "description": "Nenhum Rewise Air foi encontrado automaticamente. Veja o endereço IP do Air A2 no seu roteador (ou reinicie o Home Assistant para que ele o encontre). Depois, no app Rewise, abra seu Air A2 → Configurações → Home Assistant, toque em Copy Code e cole aqui. Trate o código como uma senha.",
+        "data": {
+          "host": "Endereço IP ou nome do host",
+          "code": "Código de conexão"
+        }
       }
     },
     "error": {

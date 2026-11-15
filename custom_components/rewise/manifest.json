@@ -1,6 +1,9 @@
 {
   "domain": "rewise",
   "name": "Rewise",
+  "after_dependencies": [
+    "zeroconf"
+  ],
   "codeowners": [
     "@lucaregianini"
   ],
@@ -10,7 +13,7 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/lucaregianini/rewise-home-assistant/issues",
   "requirements": [],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "zeroconf": [
     "_smartachub._tcp.local."
   ]

@@ -8,9 +8,19 @@ Tested on a real Air A2 with Home Assistant 2026.10. You need a Rewise app versi
 
 ## What you need
 
-A Rewise Air A2 set up in the Rewise app, Home Assistant 2025.2 or later, and HACS. Home Assistant and Rewise Air must be able to reach each other on your network. Automated tests run on Home Assistant 2026.10.4; 2025.2 is the first version with every Home Assistant feature this integration uses, but it has not been run on it.
+A Rewise Air A2 set up in the Rewise app, Home Assistant 2025.2 or later. On Home Assistant 2026.11 or later you install it from the built-in Marketplace; on older versions you need HACS. Home Assistant and Rewise Air must be able to reach each other on your network. Automated tests run on Home Assistant 2026.10.4; 2025.2 is the first version with every Home Assistant feature this integration uses, but it has not been run on it.
 
 ## Install
+
+### Home Assistant 2026.11 or later (Marketplace)
+
+1. Open Settings → **Marketplace**.
+2. Select **Add from link** (top right), paste `https://github.com/lucaregianini/rewise-home-assistant`, and select **Add**. If you're asked for a type, choose **Integration**.
+3. Search for **Rewise** and install it.
+
+Home Assistant then opens the Rewise setup straight away. No restart is needed.
+
+### Older versions (HACS)
 
 1. Open HACS → ⋮ → Custom repositories.
 2. Add `https://github.com/lucaregianini/rewise-home-assistant`, category **Integration**.
@@ -18,12 +28,12 @@ A Rewise Air A2 set up in the Rewise app, Home Assistant 2025.2 or later, and HA
 
 ## Add your Rewise Air
 
-1. In Home Assistant, open Settings → Devices & services. Your Air A2 appears under **Discovered**.
-2. Select **Add**.
+1. Start the setup: it opens by itself after a Marketplace install. Otherwise go to Settings → Devices & services and either select **Add** on the Rewise Air under **Discovered**, or select **Add integration** → **Rewise**.
+2. Rewise looks for your Air A2 on the network. Choose it from the list.
 3. In the Rewise app, open your Air A2 → Settings → Home Assistant → **Copy Code**.
 4. Paste the code into Home Assistant.
 
-If discovery is unavailable, select Add integration → Rewise and enter the Air A2's IP address or hostname and connection code. Use a bare address, without `http://` or a path.
+If your Air A2 isn't found, choose **Enter IP address or hostname instead** (or you'll be taken there automatically) and enter its address from your router together with the connection code. Use a bare address, without `http://` or a path. Restarting Home Assistant also lets it rediscover the device in the background.
 
 ## What you get
 
